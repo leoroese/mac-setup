@@ -1,0 +1,47 @@
+[user]
+	name = Leo Roese
+	email = me@leoroese.io
+[color]
+	ui = auto
+[alias]
+	co = checkout
+	br = branch
+	st = status
+	last = log -1 HEAD --stat
+	cm = commit -m
+	rv = remote -v
+	d = diff
+	se = !git rev-list --all | xargs git grep -F
+	del = branch -D
+	uci = reset HEAD~1 --mixed
+	al = config --global -l
+	cob = checkout -b
+	reset = !git reset --hard
+	s = status -s
+	cam = commit -a -m
+	swc = switch -c
+	sw = switch
+	swb = switch -
+	la = log --graph --pretty=tformat:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --decorate=short --all
+	lo = log --graph --pretty=tformat:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --decorate=short
+	ll = log --oneline main..
+[pager]
+	branch = false
+	log = false
+	config = false
+	tag = false
+	reflog = false
+	show = false
+	grep = false
+	diff = cat
+[core]
+	editor = vim
+[init]
+	defaultBranch = main
+[pull]
+	rebase = true
+[merge]
+	tool = opendiff
+	conflictstyle = diff3
+[push]
+	autoSetupRemote = true
