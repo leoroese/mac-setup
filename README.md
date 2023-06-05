@@ -10,6 +10,7 @@
 - firefox (for frontend testing)
 
 ### Chrome extensions
+
 - 1password
 - ublock origin
 - json viewer
@@ -89,6 +90,7 @@
 - skhd
 - snappy
 - sqlite
+- starship
 - tmux
 - tree-sitter
 - vim
@@ -100,6 +102,7 @@
 - zstd
 
 Casks
+
 - sequel-ace
 - wezterm
 - miniconda
