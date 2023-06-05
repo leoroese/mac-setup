@@ -9,6 +9,15 @@
 - safari (for frontend testing)
 - firefox (for frontend testing)
 
+### Chrome extensions
+- 1password
+- ublock origin
+- json viewer
+- react dev tools
+- daily.dev
+- clear session
+- colorzilla
+
 ### Productivity
 
 - raycast
