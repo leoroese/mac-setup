@@ -105,8 +105,3 @@ Casks
 - sequel-ace
 - wezterm
 - miniconda
-
-## Raycast extensions
-
-- Theme: Wesbos cobalt2 (night)
-- Look through .config/raycast/extensions package jsons
