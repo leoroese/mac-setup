@@ -100,8 +100,6 @@
 - zstd
 
 Casks
-
-- fig
 - sequel-ace
 - wezterm
 - miniconda
