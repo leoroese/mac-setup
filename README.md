@@ -1,7 +1,5 @@
 # My Mac Setup
 
-blah test
-
 ## Applications
 
 ### Browsers
