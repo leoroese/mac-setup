@@ -1,6 +1,38 @@
--- Keymaps are automatically loaded on the VeryLazy event
--- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
--- Add any additional keymaps here
+local keymap = vim.keymap
+
+keymap.set("n", "<leader>pv", vim.cmd.Ex)
+
+-- move line up or down
+keymap.set("v", "J", ":m '>+1<CR>gv=gv")
+keymap.set("v", "K", ":m '<-2<CR>gv=gv")
+
+keymap.set("n", "J", "mzJ`z")
+keymap.set("n", "<C-d>", "<C-d>zz")
+keymap.set("n", "<C-u>", "<C-u>zz")
+keymap.set("n", "n", "nzzzv")
+keymap.set("n", "N", "Nzzzv")
+
+-- Remaps to not overwrite register
+keymap.set("x", "<leader>p", [["_dP]])
+keymap.set({ "n", "v" }, "<leader>d", [["_d]])
+keymap.set({ "n", "v" }, "<leader>c", [["_c]])
+
+keymap.set("i", "<C-c>", "<Esc>")
+
+keymap.set("n", "Q", "<nop>")
+
+-- Sessionizer from within vim
+keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
+
+
+local opts = { noremap = true, silent = true }
+-- Tmux navigation between panes and tmux windows
+keymap.set("n", "<C-j>", "<cmd>TmuxNavigateDown<CR>", opts)
+keymap.set("n", "<C-k>", "<cmd>TmuxNavigateUp<CR>", opts)
+keymap.set("n", "<C-h>", "<cmd>TmuxNavigateLeft<CR>", opts)
+keymap.set("n", "<C-l>", "<cmd>TmuxNavigateRight<CR>", opts)
+
+
 local function check_appearance_mode()
   local cmd = "defaults read -g AppleInterfaceStyle 2>/dev/null"
   local handle = io.popen(cmd)
@@ -17,43 +49,10 @@ end
 function ToggleLightDarkColorScheme()
   local appearance = check_appearance_mode()
   if appearance == "dark" then
-    vim.cmd("colorscheme tokyonight-moon")
+    vim.cmd("colorscheme onedark")
   else
     vim.cmd("colorscheme catppuccin-latte")
   end
 end
 
-vim.keymap.set("n", "<leader>uo", ":lua ToggleLightDarkColorScheme()<CR>")
-
-vim.keymap.set("n", "<leader>bo", "<cmd>%bd|e#<cr>", { desc = "Close all buffers but the current one" }) -- https://stackoverflow.com/a/42071865/516188
-
--- Navigation
-vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
-
--- take below line and append to current line with space
-vim.keymap.set("n", "J", "mzJ`z")
-
--- Allow to keep cursor in the middle of half page jumping
-vim.keymap.set("n", "<C-d>", "<C-d>zz")
-vim.keymap.set("n", "<C-u>", "<C-u>zz")
-
--- Search terms cursor in the middle
-vim.keymap.set("n", "n", "nzzzv")
-vim.keymap.set("n", "N", "Nzzzv")
-
--- greatest remap ever (delete highlighted word in void register and put current register word)
-vim.keymap.set("x", "<leader>p", [["_dP]])
-
--- search and replace word under cursor in file
-vim.keymap.set("n", "<leader>cR", [[:%s/<<C-r><C-w>>/<C-r><C-w>/gI<Left><Left><Left>]])
-
--- next greatest remap ever : asbjornHaland
--- +y is system clipboard so can paste it anywhere
-vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
-vim.keymap.set("n", "<leader>Y", [["+Y]])
-
--- Same thing but with delete
-vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]])
-
--- Worst place in the universe
-vim.keymap.set("n", "Q", "<nop>")
+keymap.set("n", "<leader>uo", ":lua ToggleLightDarkColorScheme()<CR>")

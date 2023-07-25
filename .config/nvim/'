@@ -1,0 +1,29 @@
+return {
+    {
+        "echasnovski/mini.bufremove",
+        -- stylua: ignore
+        keys = {
+            { "<leader>bd", function() require("mini.bufremove").delete(0, false) end, desc = "Delete Buffer" },
+            { "<leader>bD", function() require("mini.bufremove").delete(0, true) end,  desc = "Delete Buffer (Force)" },
+        },
+    },
+    {
+        "echasnovski/mini.surround",
+        opts = {
+            mappings = {
+                add = "gsa",
+                delete = "gsd",
+                find = "gsf",
+                find_left = "gsF",
+                highlight = "gsh",
+                replace = "gsr",
+                update_n_lines = "gsn",
+            },
+        },
+    },
+    {
+        "echasnovski/mini.pairs",
+        event = "VeryLazy",
+        opts = {},
+    },
+}
