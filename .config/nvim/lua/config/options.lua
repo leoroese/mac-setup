@@ -31,7 +31,7 @@ opt.equalalways = false   -- I don't like my windows changing all the time
 opt.splitright = true     -- Prefer windows splitting to the right
 opt.splitbelow = true     -- Prefer windows splitting to the bottom
 opt.updatetime = 100      -- Make updates happen faster
-opt.hlsearch = false      -- I wouldn't use this without my DoNoHL function
+opt.hlsearch = true       -- I wouldn't use this without my DoNoHL function
 opt.scrolloff = 10        -- Make it so there are always ten lines below my cursor
 
 -- opt.smoothscroll = true
