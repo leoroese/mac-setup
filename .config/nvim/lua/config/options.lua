@@ -101,3 +101,12 @@ opt.grepformat = "%f:%l:%c:%m"
 opt.grepprg = "rg --vimgrep"
 opt.timeoutlen = 300
 opt.undolevels = 10000
+
+-- support mdx
+vim.filetype.add({
+    extension = {
+        mdx = "markdown.mdx"
+    },
+    filename = {},
+    pattern = {}
+})
