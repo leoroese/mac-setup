@@ -1,6 +1,6 @@
 [user]
 	name = Leo Roese
-	email = me@leoroese.io
+	email = leo@meltano.com
 [color]
 	ui = auto
 [alias]
@@ -33,9 +33,20 @@
 	reflog = false
 	show = false
 	grep = false
-	diff = cat
+[delta "light-mode"]
+  light = true
+  syntax-theme = GitHub
+
+[delta "dark-mode"]
+  light = false
+  syntax-theme = Visual Studio Dark+
+[delta]
+	navigate = true
+	side-by-side = true
+	line-numbers = true
 [core]
-	editor = vim
+	pager = delta --features "$(defaults read -globalDomain AppleInterfaceStyle &> /dev/null && echo dark-mode || echo light-mode)"
+	editor = nvim
 [init]
 	defaultBranch = main
 [pull]
@@ -43,5 +54,11 @@
 [merge]
 	tool = opendiff
 	conflictstyle = diff3
+[diff]
+	colorMoved = default
 [push]
 	autoSetupRemote = true
+
+
+[credential]
+	helper = cache
