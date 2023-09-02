@@ -1,5 +1,5 @@
 return {
-    {
+  {
     "zbirenbaum/copilot.lua",
     cmd = "Copilot",
     build = ":Copilot auth",
@@ -31,18 +31,18 @@ return {
       end
     end,
   },
-    -- https://github.com/jackMort/ChatGPT.nvim
-      -- {
-      --   "jackMort/ChatGPT.nvim",
-      --   dependencies = {
-      --     { "MunifTanjim/nui.nvim" },
-      --     { "nvim-lua/plenary.nvim" },
-      --     { "nvim-telescope/telescope.nvim" },
-      --   },
-      --   config = function()
-      --     require("chatgpt").setup({
-      --       -- optional configuration
-      --     })
-      --   end,
-      -- },
+  -- https://github.com/jackMort/ChatGPT.nvim
+  -- {
+  --   "jackMort/ChatGPT.nvim",
+  --   dependencies = {
+  --     { "MunifTanjim/nui.nvim" },
+  --     { "nvim-lua/plenary.nvim" },
+  --     { "nvim-telescope/telescope.nvim" },
+  --   },
+  --   config = function()
+  --     require("chatgpt").setup({
+  --       -- optional configuration
+  --     })
+  --   end,
+  -- },
 }
