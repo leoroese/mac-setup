@@ -67,3 +67,4 @@ function ToggleLightDarkColorScheme()
 end
 
 map("n", "<leader>uo", ":lua ToggleLightDarkColorScheme()<CR>")
+map("n", "<leader>e", vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
