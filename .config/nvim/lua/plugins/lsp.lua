@@ -129,6 +129,7 @@ return {
         },
         clangd = {},
         tsserver = {},
+        marksman = {},
         pyright = {},
         tailwindcss = {},
         jsonls = {},
@@ -315,11 +316,23 @@ return {
           nls.builtins.diagnostics.fish,
           nls.builtins.formatting.stylua,
           nls.builtins.formatting.shfmt,
-          nls.builtins.formatting.prettierd,
+          nls.builtins.formatting.prettierd.with({
+            extra_filetypes = { "astro" },
+          }),
           nls.builtins.diagnostics.flake8,
           nls.builtins.formatting.black,
+          nls.builtins.diagnostics.markdownlint,
         },
       }
+    end,
+  },
+  {
+    "nvim-treesitter/nvim-treesitter",
+    opts = function(_, opts)
+      -- add tsx and treesitter
+      vim.list_extend(opts.ensure_installed, {
+        "astro",
+      })
     end,
   },
 }
