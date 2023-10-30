@@ -18,9 +18,9 @@ opt.number = true -- shows absolute line number on cursor line (when relative nu
 opt.numberwidth = 4 -- number column width
 
 -- tabs & indentation
-opt.tabstop = 4 -- 2 spaces for tabs (prettier default)
-opt.shiftwidth = 4 -- 2 spaces for indent width
-opt.softtabstop = 4
+opt.tabstop = 2 -- 2 spaces for tabs (prettier default)
+opt.shiftwidth = 2 -- 2 spaces for indent width
+opt.softtabstop = 2
 opt.expandtab = true -- expand tab to spaces
 opt.autoindent = true -- copy indent from current line when starting new one
 

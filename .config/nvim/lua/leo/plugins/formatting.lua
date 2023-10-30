@@ -1,42 +1,47 @@
 return {
   "stevearc/conform.nvim",
-  lazy = true,
-  event = { "BufReadPre", "BufNewFile" }, -- to disable, comment this out
-  config = function()
-    local conform = require("conform")
-
-    conform.setup({
-      formatters_by_ft = {
-        javascript = { "prettierd", "prettier" },
-        typescript = { "prettierd", "prettier" },
-        javascriptreact = { "prettierd", "prettier" },
-        typescriptreact = { "prettierd", "prettier" },
-        svelte = { "prettierd", "prettier" },
-        css = { "prettierd", "prettier" },
-        html = { "prettierd", "prettier" },
-        json = { "prettierd", "prettier" },
-        yaml = { "prettierd", "prettier" },
-        markdown = { "prettierd", "prettier" },
-        graphql = { "prettierd", "prettier" },
-        lua = { "stylua" },
-        python = { "isort", "black" },
+  event = { "BufWritePre" },
+  cmd = { "ConformInfo" },
+  keys = {
+    {
+      -- Customize or remove this keymap to your liking
+      "<leader>cf",
+      function()
+        require("conform").format({ async = true, lsp_fallback = true })
+      end,
+      mode = "",
+      desc = "Format buffer",
+    },
+  },
+  -- Everything in opts will be passed to setup()
+  opts = {
+    -- Define your formatters
+    formatters_by_ft = {
+      javascript = { "prettier" },
+      typescript = { "prettier" },
+      javascriptreact = { "prettier" },
+      typescriptreact = { "prettier" },
+      svelte = { "prettier" },
+      css = { "prettier" },
+      html = { "prettier" },
+      json = { "prettier" },
+      yaml = { "prettier" },
+      markdown = { "prettier" },
+      graphql = { "prettier" },
+      lua = { "stylua" },
+      python = { "isort", "black" },
+    },
+    -- Set up format-on-save
+    format_on_save = { timeout_ms = 500, lsp_fallback = true },
+    -- Customize formatters
+    formatters = {
+      shfmt = {
+        prepend_args = { "-i", "2" },
       },
-      format_on_save = {
-        lsp_fallback = true,
-        async = false,
-        timeout_ms = 500,
-      },
-      formatters = {
-        injected = { options = { ignore_errors = true } },
-      },
-    })
-
-    vim.keymap.set({ "n", "v" }, "<leader>cf", function()
-      conform.format({
-        lsp_fallback = true,
-        async = false,
-        timeout_ms = 500,
-      })
-    end, { desc = "Format file or range (in visual mode)" })
+    },
+  },
+  init = function()
+    -- If you want the formatexpr, here is the place to set it
+    vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
   end,
 }
