@@ -30,6 +30,9 @@ return {
       opts.desc = "Show LSP type definitions"
       keymap.set("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", opts) -- show lsp type definitions
 
+      opts.desc = "Highlight word under cursor"
+      vim.keymap.set("n", "gw", vim.show_pos, { desc = "Inspect Pos" })
+
       opts.desc = "See available code actions"
       keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts) -- see available code actions, in visual mode will apply to selection
 
@@ -50,6 +53,9 @@ return {
 
       opts.desc = "Show documentation for what is under cursor"
       keymap.set("n", "K", vim.lsp.buf.hover, opts) -- show documentation for what is under cursor
+
+      opts.desc = "Show code actions"
+      keymap.set("n", "ga", vim.lsp.buf.code_action, opts) -- show code actions
     end
 
     local capabilities = cmp_nvim_lsp.default_capabilities()
@@ -63,6 +69,10 @@ return {
     lspconfig["tsserver"].setup({
       capabilities = capabilities,
       on_attach = on_attach,
+      keys = {
+        { "<leader>co", "<cmd>TypescriptOrganizeImports<CR>", desc = "Organize Imports" },
+        { "<leader>cR", "<cmd>TypescriptRenameFile<CR>", desc = "Rename File" },
+      },
     })
 
     -- configure typescript server with plugin
@@ -71,6 +81,9 @@ return {
       on_attach = on_attach,
       settings = {
         workingDirectory = { mode = "auto" },
+        experimental = {
+          useFlatConfig = true,
+        },
       },
     })
 
@@ -94,7 +107,27 @@ return {
     lspconfig["emmet_ls"].setup({
       capabilities = capabilities,
       on_attach = on_attach,
-      filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less", "svelte" },
+      filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less", "svelte", "vue" },
+    })
+
+    lspconfig["ruff_lsp"].setup({
+      capabilities = capabilities,
+      on_attach = on_attach,
+      keys = {
+        {
+          "<leader>co",
+          function()
+            vim.lsp.buf.code_action({
+              apply = true,
+              context = {
+                only = { "source.organizeImports" },
+                diagnostics = {},
+              },
+            })
+          end,
+          desc = "Organize Imports",
+        },
+      },
     })
 
     lspconfig["pyright"].setup({
@@ -126,5 +159,24 @@ return {
       capabilities = capabilities,
       on_attach = on_attach,
     })
+
+    lspconfig["volar"].setup({
+      capabilities = capabilities,
+      on_attach = on_attach,
+      filetypes = { "vue" },
+    })
   end,
+  setup = {
+    clangd = function(_, opts)
+      opts.capabilities.offsetEncoding = { "utf-16" }
+    end,
+    ruff_lsp = function()
+      require("lazyvim.util").lsp.on_attach(function(client, _)
+        if client.name == "ruff_lsp" then
+          -- Disable hover in favor of Pyright
+          client.server_capabilities.hoverProvider = false
+        end
+      end)
+    end,
+  },
 }

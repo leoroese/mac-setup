@@ -10,56 +10,84 @@ vim.filetype.add({
 vim.g.netrw_sort_sequence = "[./], [../], *"
 vim.g.tmux_navigator_no_mappings = 1
 
+vim.g.root_spec = { "lsp", { ".git", "lua" }, "cwd" }
+
+-- Fix markdown indentation settings
+vim.g.markdown_recommended_style = 0
+
+-- deprecated
+vim.g.skip_ts_context_commentstring_module = true
+
 local opt = vim.opt
 
--- line numbers
-opt.relativenumber = true -- show relative line numbers
-opt.number = true -- shows absolute line number on cursor line (when relative number is on)
-opt.numberwidth = 4 -- number column width
-
--- tabs & indentation
-opt.tabstop = 2 -- 2 spaces for tabs (prettier default)
-opt.shiftwidth = 2 -- 2 spaces for indent width
-opt.softtabstop = 2
-opt.expandtab = true -- expand tab to spaces
-opt.autoindent = true -- copy indent from current line when starting new one
-
--- line wrapping
-opt.wrap = false -- disable line wrapping
-
--- search settings
-opt.ignorecase = true -- ignore case when searching
-opt.smartcase = true -- if you include mixed case in your search, assumes you want case-sensitive
-
--- cursor line
-opt.cursorline = true -- highlight the current cursor line
-
--- colors
-opt.termguicolors = true
-
-opt.signcolumn = "yes" -- show sign column so that text doesn't shift
-
--- backspace
-opt.backspace = "indent,eol,start" -- allow backspace on indent, end of line or insert mode start position
+opt.guicursor = "n-v-c-i:block" -- cursor style in different modes, see :help 'guicursor'
 
 -- clipboard
-opt.clipboard:append("unnamedplus") -- use system clipboard as default register
+opt.clipboard = "unnamedplus" -- Sync with system clipboard
+opt.completeopt = "menu,menuone,noselect"
+opt.confirm = true -- Confirm to save changes if try to exit with unsaved changes
 
--- split windows
-opt.splitright = true -- split vertical window to the right
-opt.splitbelow = true -- split horizontal window to the bottom
+-- indentation
+opt.expandtab = true -- Use spaces instead of tabs, tabs vary on diff editors
+opt.shiftwidth = 4 -- Size of an indent
+opt.smartindent = true -- Insert indents automatically
+opt.shiftround = true -- round indent
+opt.tabstop = 4 -- Number of spaces tabs count for
 
--- swapfile
-opt.swapfile = false -- creates a swap file
+-- show
+opt.cursorline = true -- enable highlight of current line
+opt.list = true -- show hiden invisible characters
 
--- cursors
-opt.pumheight = 10 -- height of pop up menu
-opt.scrolloff = 8 -- minimium number of lines above and below the cursor
-opt.sidescrolloff = 8 -- minimum number of columns on the left and right of the cursor
+-- search
+opt.formatoptions = "jcroqlnt" -- control how nvim auto-formats text
+opt.grepformat = "%f:%l:%c:%m" -- format of output
+opt.grepprg = "rg --vimgrep" -- program to use for grep command
+opt.ignorecase = true -- Ignore case
+opt.smartcase = true -- Don't ignore case with capitals
+opt.inccommand = "nosplit" -- preview incremental substitute
 
--- misc
-opt.showmode = false -- won't show the mode in the command bar
-opt.signcolumn = "yes" -- always show the sign column
-opt.undofile = true -- persistent undo
-opt.conceallevel = 0 -- to show text normally
-opt.guicursor = "n-v-c-i:block" -- cursor style in different modes, see :help 'guicursor'
+-- lines
+opt.number = true -- show line number
+opt.relativenumber = true -- show relative line number
+opt.scrolloff = 8 -- minimum number of lines above and below cursor
+opt.wrap = false -- Disable line wrap
+
+-- popup
+opt.pumblend = 10 -- transparency of popup menu
+opt.pumheight = 10 -- maximum number of items in popup menu
+
+-- splits
+opt.splitbelow = true -- Put new windows below current
+opt.splitkeep = "screen"
+opt.splitright = true -- Put new windows right of current
+
+-- colors
+opt.termguicolors = true -- True color support
+
+-- fill
+opt.fillchars = {
+  foldopen = "",
+  foldclose = "",
+  -- fold = "⸱",
+  fold = " ",
+  foldsep = " ",
+  diff = "╱",
+  eob = " ",
+}
+
+-- general settings
+opt.mouse = "a" -- enable mouse support
+opt.sessionoptions = { "buffers", "curdir", "tabpages", "winsize", "help", "globals", "skiprtp", "folds" }
+opt.signcolumn = "yes" -- Always show the signcolumn, otherwise it would shift the text each time
+opt.spelllang = { "en" }
+opt.timeoutlen = 300
+opt.undofile = true
+opt.undolevels = 10000
+opt.updatetime = 200 -- Save swap file and trigger CursorHold
+opt.virtualedit = "block" -- Allow cursor to move where there is no text in visual block mode
+opt.wildmode = "longest:full,full" -- Command-line completion mode
+opt.winminwidth = 5 -- Minimum window width
+
+if vim.fn.has("nvim-0.10") == 1 then
+  opt.smoothscroll = true
+end
