@@ -76,7 +76,7 @@ local diagnostic_goto = function(next, severity)
     go({ severity = severity })
   end
 end
-vim.keymap.set("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
+vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
 vim.keymap.set("n", "]d", diagnostic_goto(true), { desc = "Next Diagnostic" })
 vim.keymap.set("n", "[d", diagnostic_goto(false), { desc = "Prev Diagnostic" })
 vim.keymap.set("n", "]e", diagnostic_goto(true, "ERROR"), { desc = "Next Error" })
@@ -87,7 +87,6 @@ vim.keymap.set("n", "[w", diagnostic_goto(false, "WARN"), { desc = "Prev Warning
 -- quit
 vim.keymap.set("n", "<leader>qq", "<cmd>qa<cr>", { desc = "Quit all" })
 
--- highlights under cursor
 vim.keymap.set("n", "<leader>ui", vim.show_pos, { desc = "Inspect Pos" })
 
 -- Terminal mappings
@@ -104,13 +103,25 @@ vim.keymap.set("t", "<c-_>", "<cmd>close<cr>", { desc = "which_key_ignore" })
 vim.keymap.set("n", "J", "mzJ`z") -- better join
 vim.keymap.set("n", "<C-u>", "<C-u>zz") -- keep cursor position when scrolling
 vim.keymap.set("x", "<leader>p", [["_dP]]) -- paste but don't overwrite
-vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]]) -- delete without yanking
+-- vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]]) -- delete without yanking
 vim.keymap.set({ "n", "v" }, "<leader>c", [["_c]]) -- change without yanking
 vim.keymap.set("i", "<C-c>", "<Esc>") -- escape with ctrl-c
 vim.keymap.set("n", "Q", "<nop>") -- disable ex mode
 
 -- Sessionizer from within vim
 vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
+
+-- Terminal
+-- floating terminal
+local lazyterm = function()
+  Util.terminal(nil, { cwd = Util.root() })
+end
+vim.keymap.set("n", "<leader>ft", lazyterm, { desc = "Terminal (root dir)" })
+vim.keymap.set("n", "<leader>fT", function()
+  Util.terminal()
+end, { desc = "Terminal (cwd)" })
+vim.keymap.set("n", "<c-/>", lazyterm, { desc = "Terminal (root dir)" })
+vim.keymap.set("n", "<c-_>", lazyterm, { desc = "which_key_ignore" })
 
 local opts = { noremap = true, silent = true }
 
@@ -119,6 +130,61 @@ vim.keymap.set("n", "<C-j>", "<cmd>:TmuxNavigateDown<CR>", opts)
 vim.keymap.set("n", "<C-k>", "<cmd>:TmuxNavigateUp<CR>", opts)
 vim.keymap.set("n", "<C-h>", "<cmd>:TmuxNavigateLeft<CR>", opts)
 vim.keymap.set("n", "<C-l>", "<cmd>:TmuxNavigateRight<CR>", opts)
+
+-- Highlight and search word under cursor
+vim.keymap.set("n", "<leader>s", function()
+  local word = vim.fn.expand("<cword>")
+  vim.fn.setreg("/", "\\<" .. vim.fn.escape(word, "\\") .. "\\>")
+  vim.cmd("set hlsearch")
+end, { silent = true })
+
+-- Toggles
+vim.keymap.set("n", "<leader>uf", function()
+  Util.format.toggle()
+end, { desc = "Toggle auto format (global)" })
+
+vim.keymap.set("n", "<leader>uF", function()
+  Util.format.toggle(true)
+end, { desc = "Toggle auto format (buffer)" })
+
+vim.keymap.set("n", "<leader>us", function()
+  Util.toggle("spell")
+end, { desc = "Toggle Spelling" })
+
+vim.keymap.set("n", "<leader>uw", function()
+  Util.toggle("wrap")
+end, { desc = "Toggle Word Wrap" })
+
+vim.keymap.set("n", "<leader>uL", function()
+  Util.toggle("relativenumber")
+end, { desc = "Toggle Relative Line Numbers" })
+
+vim.keymap.set("n", "<leader>ul", function()
+  Util.toggle.number()
+end, { desc = "Toggle Line Numbers" })
+
+vim.keymap.set("n", "<leader>ud", function()
+  Util.toggle.diagnostics()
+end, { desc = "Toggle Diagnostics" })
+
+local conceallevel = vim.o.conceallevel > 0 and vim.o.conceallevel or 3
+vim.keymap.set("n", "<leader>uc", function()
+  Util.toggle("conceallevel", false, { 0, conceallevel })
+end, { desc = "Toggle Conceal" })
+
+if vim.lsp.inlay_hint then
+  vim.keymap.set("n", "<leader>uh", function()
+    vim.lsp.inlay_hint(0, nil)
+  end, { desc = "Toggle Inlay Hints" })
+end
+
+vim.keymap.set("n", "<leader>uT", function()
+  if vim.b.ts_highlight then
+    vim.treesitter.stop()
+  else
+    vim.treesitter.start()
+  end
+end, { desc = "Toggle Treesitter Highlight" })
 
 local function check_appearance_mode()
   local cmd = "defaults read -g AppleInterfaceStyle 2>/dev/null"

@@ -1,72 +1,90 @@
 return {
   "stevearc/conform.nvim",
-  event = { "BufWritePre" },
-  cmd = { "ConformInfo" },
+  dependencies = { "mason.nvim" },
+  lazy = true,
+  cmd = "ConformInfo",
   keys = {
     {
-      -- Customize or remove this keymap to your liking
-      "<leader>cf",
+      "<leader>cF",
       function()
-        require("conform").format({ async = true, lsp_fallback = true })
+        require("conform").format({ formatters = { "injected" } })
       end,
-      mode = "",
-      desc = "Format buffer",
-    },
-  },
-  -- Everything in opts will be passed to setup()
-  opts = {
-    -- Define your formatters
-    formatters_by_ft = {
-      javascript = { "prettier" },
-      typescript = { "prettier" },
-      javascriptreact = { "prettier" },
-      typescriptreact = { "prettier" },
-      svelte = { "prettier" },
-      vue = { "prettier" },
-      css = { "prettier" },
-      html = { "prettier" },
-      json = { "prettier" },
-      yaml = { "prettier" },
-      markdown = { "prettier" },
-      graphql = { "prettier" },
-      lua = { "stylua" },
-      python = { "isort", "black" },
-    },
-    -- Set up format-on-save
-    format_on_save = function(bufnr)
-      -- disable with global or buffer-local variable
-      if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
-        return
-      end
-      return { timeout_ms = 500, lsp_fallback = true }
-    end,
-    -- Customize formatters
-    formatters = {
-      injected = { options = { ignore_errors = true } },
-      shfmt = {
-        prepend_args = { "-i", "2" },
-      },
+      mode = { "n", "v" },
+      desc = "Format Injected Langs",
     },
   },
   init = function()
-    -- If you want the formatexpr, here is the place to set it
-    vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
-
-    vim.api.nvim_create_user_command("FormatDisable", function(args)
-      if args.bang then
-        vim.b.disable_autoformat = true
-      else
-        vim.g.disable_autoformat = true
-      end
-    end, {
-      desc = "Disable autoformat-on-save",
-      bang = true,
-    })
-    vim.api.nvim_create_user_command("FormatEnable", function()
-      vim.b.disable_autoformat = false
-      vim.g.disable_autoformat = false
-    end, {
-      desc = "Enable autoformat-on-save",
-    })
+    -- Install the conform formatter on VeryLazy
+    require("lazyvim.util").on_very_lazy(function()
+      require("lazyvim.util").format.register({
+        name = "conform.nvim",
+        priority = 100,
+        primary = true,
+        format = function(buf)
+          local Util = require("lazyvim.util")
+          local plugin = require("lazy.core.config").plugins["conform.nvim"]
+          local Plugin = require("lazy.core.plugin")
+          local opts = Plugin.values(plugin, "opts", false)
+          require("conform").format(Util.merge(opts.format, { bufnr = buf }))
+        end,
+        sources = function(buf)
+          local ret = require("conform").list_formatters(buf)
+          ---@param v conform.FormatterInfo
+          return vim.tbl_map(function(v)
+            return v.name
+          end, ret)
+        end,
+      })
+    end)
+  end,
+  opts = function()
+    local plugin = require("lazy.core.config").plugins["conform.nvim"]
+    ---@class ConformOpts
+    local opts = {
+      -- LazyVim will use these options when formatting with the conform.nvim formatter
+      format = {
+        timeout_ms = 3000,
+        async = false, -- not recommended to change
+        quiet = false, -- not recommended to change
+      },
+      ---@type table<string, conform.FormatterUnit[]>
+      formatters_by_ft = {
+        lua = { "stylua" },
+        fish = { "fish_indent" },
+        sh = { "shfmt" },
+        python = { "isort", "black" },
+        javascript = { "prettier" },
+        typescript = { "prettier" },
+        javascriptreact = { "prettier" },
+        typescriptreact = { "prettier" },
+        vue = { "prettier" },
+        css = { "prettier" },
+        html = { "prettier" },
+        json = { "prettier" },
+        jsonc = { "prettier" },
+        yaml = { "prettier" },
+        markdown = { "prettier" },
+        ["markdown.mdx"] = { "prettier" },
+        handlebars = { "prettier" },
+      },
+      -- The options you set here will be merged with the builtin formatters.
+      -- You can also define any custom formatters here.
+      ---@type table<string, conform.FormatterConfigOverride|fun(bufnr: integer): nil|conform.FormatterConfigOverride>
+      formatters = {
+        injected = { options = { ignore_errors = true } },
+        -- # Example of using dprint only when a dprint.json file is present
+        -- dprint = {
+        --   condition = function(ctx)
+        --     return vim.fs.find({ "dprint.json" }, { path = ctx.filename, upward = true })[1]
+        --   end,
+        -- },
+        --
+        -- # Example of using shfmt with extra args
+        -- shfmt = {
+        --   prepend_args = { "-i", "2", "-ci" },
+        -- },
+      },
+    }
+    return opts
   end,
 }

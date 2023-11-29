@@ -11,7 +11,16 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-require("lazy").setup({ { import = "leo.plugins" }, { import = "leo.plugins.lsp" } }, {
+require("lazy").setup({
+  { "folke/lazy.nvim", version = false },
+  { "LazyVim/LazyVim", version = false },
+  { import = "leo.plugins" },
+  -- { import = "leo.plugins.lsp" },
+}, {
+  defaults = {
+    lazy = false,
+    version = false,
+  },
   install = {
     colorscheme = { "tokyonight", "catppuccin" },
   },
@@ -21,5 +30,21 @@ require("lazy").setup({ { import = "leo.plugins" }, { import = "leo.plugins.lsp"
   },
   change_detection = {
     notify = false,
+  },
+
+  performance = {
+    rtp = {
+      -- disable some rtp plugins
+      disabled_plugins = {
+        "gzip",
+        -- "matchit",
+        -- "matchparen",
+        -- "netrwPlugin",
+        "tarPlugin",
+        "tohtml",
+        "tutor",
+        "zipPlugin",
+      },
+    },
   },
 })
