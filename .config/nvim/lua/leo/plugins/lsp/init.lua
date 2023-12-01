@@ -9,6 +9,7 @@ return {
       { "folke/neodev.nvim", opts = {} },
       "mason.nvim",
       "williamboman/mason-lspconfig.nvim",
+      "hrsh7th/cmp-nvim-lsp",
     },
     ---@class PluginLspOpts
     opts = {
@@ -44,6 +45,41 @@ return {
       -- LSP Server Settings
       ---@type lspconfig.options
       servers = {
+        clangd = {
+          keys = {
+            { "<leader>cR", "<cmd>ClangdSwitchSourceHeader<cr>", desc = "Switch Source/Header (C/C++)" },
+          },
+          root_dir = function(fname)
+            return require("lspconfig.util").root_pattern(
+              "Makefile",
+              "configure.ac",
+              "configure.in",
+              "config.h.in",
+              "meson.build",
+              "meson_options.txt",
+              "build.ninja"
+            )(fname) or require("lspconfig.util").root_pattern("compile_commands.json", "compile_flags.txt")(
+              fname
+            ) or require("lspconfig.util").find_git_ancestor(fname)
+          end,
+          capabilities = {
+            offsetEncoding = { "utf-16" },
+          },
+          cmd = {
+            "clangd",
+            "--background-index",
+            "--clang-tidy",
+            "--header-insertion=iwyu",
+            "--completion-style=detailed",
+            "--function-arg-placeholders",
+            "--fallback-style=llvm",
+          },
+          init_options = {
+            usePlaceholders = true,
+            completeUnimported = true,
+            clangdFileStatus = true,
+          },
+        },
         cssls = {},
         dockerls = {},
         docker_compose_language_service = {},
@@ -205,38 +241,11 @@ return {
       -- return true if you don't want this server to be setup with lspconfig
       ---@type table<string, fun(server:string, opts:_.lspconfig.options):boolean?>
       setup = {
-        eslint = function()
-          local function get_client(buf)
-            return require("lazyvim.util").lsp.get_clients({ name = "eslint", bufnr = buf })[1]
-          end
-
-          local formatter = require("lazyvim.util").lsp.formatter({
-            name = "eslint: lsp",
-            primary = false,
-            priority = 200,
-            filter = "eslint",
-          })
-
-          -- Use EslintFixAll on Neovim < 0.10.0
-          if not pcall(require, "vim.lsp._dynamic") then
-            formatter.name = "eslint: EslintFixAll"
-            formatter.sources = function(buf)
-              local client = get_client(buf)
-              return client and { "eslint" } or {}
-            end
-            formatter.format = function(buf)
-              local client = get_client(buf)
-              if client then
-                local diag = vim.diagnostic.get(buf, { namespace = vim.lsp.diagnostic.get_namespace(client.id) })
-                if #diag > 0 then
-                  vim.cmd("EslintFixAll")
-                end
-              end
-            end
-          end
-
-          -- register the formatter with LazyVim
-          require("lazyvim.util").format.register(formatter)
+        clangd = function(_, opts)
+          local clangd_ext_opts = require("lazyvim.util").opts("clangd_extensions.nvim")
+          require("clangd_extensions").setup(vim.tbl_deep_extend("force", clangd_ext_opts or {}, { server = opts }))
+          opts.capabilities.offsetEncoding = { "utf-16" }
+          return false
         end,
         ruff_lsp = function()
           require("lazyvim.util").lsp.on_attach(function(client, _)
@@ -421,6 +430,7 @@ return {
         "black",
         "ruff-lsp",
         -- typescript
+        "eslint_d",
         "prettier",
         -- docker
         "hadolint",

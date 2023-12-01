@@ -29,10 +29,10 @@ opt.confirm = true -- Confirm to save changes if try to exit with unsaved change
 
 -- indentation
 opt.expandtab = true -- Use spaces instead of tabs, tabs vary on diff editors
-opt.shiftwidth = 4 -- Size of an indent
+opt.shiftwidth = 2 -- Size of an indent
 opt.smartindent = true -- Insert indents automatically
 opt.shiftround = true -- round indent
-opt.tabstop = 4 -- Number of spaces tabs count for
+opt.tabstop = 2 -- Number of spaces tabs count for
 
 -- show
 opt.cursorline = true -- enable highlight of current line

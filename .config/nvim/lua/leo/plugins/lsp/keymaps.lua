@@ -22,7 +22,7 @@ function M.get()
       { "K", vim.lsp.buf.hover, desc = "Hover" },
       { "gK", vim.lsp.buf.signature_help, desc = "Signature Help", has = "signatureHelp" },
       { "<c-k>", vim.lsp.buf.signature_help, mode = "i", desc = "Signature Help", has = "signatureHelp" },
-      { "<leader>ca", vim.lsp.buf.code_action, desc = "Code Action", mode = { "n", "v" }, has = "codeAction" },
+      { "<leader>ca", vim.lsp.buf.code_action, desc = "code action", mode = { "n", "v" }, has = "codeaction" },
       {
         "<leader>cA",
         function()
@@ -35,8 +35,8 @@ function M.get()
             },
           })
         end,
-        desc = "Source Action",
-        has = "codeAction",
+        desc = "source action",
+        has = "codeaction",
       }
     }
   if require("lazyvim.util").has("inc-rename.nvim") then

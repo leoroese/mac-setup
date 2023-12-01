@@ -8,12 +8,12 @@ return {
     "L3MON4D3/LuaSnip", -- snippet engine
     "saadparwaiz1/cmp_luasnip", -- for autocompletion
     "rafamadriz/friendly-snippets", -- useful snippets
-    { "roobert/tailwindcss-colorizer-cmp.nvim", config = true },
   },
   opts = function(_, opts)
-    vim.api.nvim_set_hl(0, "CmpGhostText", { link = "Comment", default = true })
     local cmp = require("cmp")
     local defaults = require("cmp.config.default")()
+    local luasnip = require("luasnip")
+    table.insert(defaults.sorting.comparators, 1, require("clangd_extensions.cmp_scores"))
     return {
       completion = {
         completeopt = "menu,menuone,preview,noselect",
@@ -32,11 +32,6 @@ return {
           end
           return item
         end,
-      },
-      experimental = {
-        ghost_text = {
-          hl_group = "CmpGhostText",
-        },
       },
       sorting = defaults.sorting,
       mapping = cmp.mapping.preset.insert({
