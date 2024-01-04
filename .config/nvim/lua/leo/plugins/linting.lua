@@ -7,12 +7,12 @@ return {
     linters_by_ft = {
       fish = { "fish" },
       dockerfile = { "hadolint" },
-      javascript = { "eslint_d" },
-      typescript = { "eslint_d" },
-      javascriptreact = { "eslint_d" },
-      typescriptreact = { "eslint_d" },
-      svelte = { "eslint_d" },
-      vue = { "eslint_d" },
+      javascript = { "eslint" },
+      typescript = { "eslint" },
+      javascriptreact = { "eslint" },
+      typescriptreact = { "eslint" },
+      svelte = { "eslint" },
+      vue = { "eslint" },
       -- Use the "*" filetype to run linters on all filetypes.
       -- ['*'] = { 'global linter' },
       -- Use the "_" filetype to run linters on filetypes that don't have other linters configured.

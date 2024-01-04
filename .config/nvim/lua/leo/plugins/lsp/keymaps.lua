@@ -14,15 +14,14 @@ function M.get()
     -- stylua: ignore
     M._keys =  {
       { "<leader>cl", "<cmd>LspInfo<cr>", desc = "Lsp Info" },
-      { "gd", function() require("telescope.builtin").lsp_definitions({ reuse_win = true }) end, desc = "Goto Definition", has = "definition" },
-      { "gr", "<cmd>Telescope lsp_references<cr>", desc = "References" },
-      { "gD", vim.lsp.buf.declaration, desc = "Goto Declaration" },
+      { "gd", function() require("telescope.builtin").lsp_definitions({ reuse_win = true }) end, desc = "[G]oto [D]efinition", has = "definition" },
+      { "gr", "<cmd>Telescope lsp_references<cr>", desc = "[G]oto [R]eferences" },
+      { "gD", vim.lsp.buf.declaration, desc = "[G]oto [D]eclaration" },
       { "gI", function() require("telescope.builtin").lsp_implementations({ reuse_win = true }) end, desc = "Goto Implementation" },
       { "gy", function() require("telescope.builtin").lsp_type_definitions({ reuse_win = true }) end, desc = "Goto T[y]pe Definition" },
       { "K", vim.lsp.buf.hover, desc = "Hover" },
-      { "gK", vim.lsp.buf.signature_help, desc = "Signature Help", has = "signatureHelp" },
-      { "<c-k>", vim.lsp.buf.signature_help, mode = "i", desc = "Signature Help", has = "signatureHelp" },
-      { "<leader>ca", vim.lsp.buf.code_action, desc = "code action", mode = { "n", "v" }, has = "codeaction" },
+      { "<c-k>", vim.lsp.buf.signature_help, mode = "i", desc = "Signature Help", has = "Signature Documentation" },
+      { "<leader>ca", vim.lsp.buf.code_action, desc = "[C]ode [A]ction", mode = { "n", "v" }, has = "codeaction" },
       {
         "<leader>cA",
         function()
@@ -47,7 +46,7 @@ function M.get()
         return ":" .. inc_rename.config.cmd_name .. " " .. vim.fn.expand("<cword>")
       end,
       expr = true,
-      desc = "Rename",
+      desc = "[R]e[N]ame",
       has = "rename",
     }
   else

@@ -1,3 +1,4 @@
+---@diagnostic disable: missing-fields
 local Util = require("lazyvim.util")
 
 return {
@@ -7,6 +8,7 @@ return {
     dependencies = {
       { "folke/neoconf.nvim", cmd = "Neoconf", config = false, dependencies = { "nvim-lspconfig" } },
       { "folke/neodev.nvim", opts = {} },
+      { "j-hui/fidget.nvim", opts = {} },
       "mason.nvim",
       "williamboman/mason-lspconfig.nvim",
       "hrsh7th/cmp-nvim-lsp",
@@ -86,6 +88,9 @@ return {
         eslint = {
           settings = {
             workingDirectory = { mode = "auto" },
+            experimental = {
+              flatConfig = true,
+            },
           },
         },
         html = {},
@@ -200,6 +205,7 @@ return {
             },
           },
         },
+        volar = {},
         yamlls = {
           -- Have to add this for yamlls to understand that we support line folding
           capabilities = {
