@@ -18,7 +18,7 @@ return {
     table.insert(defaults.sorting.comparators, 1, require("clangd_extensions.cmp_scores"))
     return {
       completion = {
-        completeopt = "menu,menuone,preview,noselect",
+        completeopt = "menuone,noselect",
       },
       snippet = {
         -- configure how nvim-cmp interacts with snippet engine
