@@ -8,6 +8,7 @@ vim.filetype.add({
 })
 
 vim.g.netrw_sort_sequence = "[./], [../], *"
+vim.g.netrw_keepdir = 0
 vim.g.tmux_navigator_no_mappings = 1
 
 vim.g.root_spec = { "lsp", { ".git", "lua" }, "cwd" }
