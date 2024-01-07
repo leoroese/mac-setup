@@ -47,16 +47,15 @@ alias por="poetry run"
 # https://github.com/christoomey/vim-tmux-navigator/issues/230
 alias prn="poetry run nvim"
 alias dcup="docker compose up -d"
-alias dcd="docker compose down"
+alias dcdown="docker compose down"
 alias ls="exa --icons"
-alias flav="bash ~/.tmux/flavour.sh && tmux source-file ~/.tmux."
+alias flav="bash ~/.tmux/flavour.sh && tmux source-file ~/.tmux.conf"
 
 alias tmux_colors='for x in {0..255}; do  printf "\x1b[38;5;${x}mcolor%-5i\x1b[0m" $x ; if ! (( ($x + 1 ) % 8 )); then echo ; fi ; done'
 
 
 
 eval "$(starship init zsh)"
-eval "$(github-copilot-cli alias -- "$0")"
 eval "$(direnv hook zsh)"
 if command -v tmux>/dev/null; then
     [[ ! $TERM =~ screen ]] && [ -z $TMUX ] && tmux new-session -A -s main

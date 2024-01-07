@@ -6,8 +6,6 @@ local config = {}
 
 function scheme_for_appearance(appearance)
 	if appearance:find("Dark") then
-		-- return "Tokyonight Moon"
-		-- return "Snazzy"
 		return "Dracula"
 	else
 		return "Catppuccin Latte"
@@ -28,6 +26,13 @@ wezterm.on("window-config-reloaded", function(window, pane)
 		overrides.color_scheme = scheme
 		overrides.window_background_opacity = appearance == "Dark" and 0.85 or 1
 		overrides.text_background_opacity = appearance == "Dark" and 0.7 or 0.45
+		overrides.colors = appearance == "Dark" and {
+			cursor_bg = "#88E9FD",
+			cursor_fg = "#000000",
+		} or {
+			cursor_bg = "#560CF5",
+			cursor_fg = "white",
+		}
 		window:set_config_overrides(overrides)
 	end
 end)
@@ -37,6 +42,13 @@ end)
 config.font = wezterm.font("JetBrains Mono")
 config.font_size = 12.0
 config.enable_tab_bar = false
+
+config.colors = {
+	cursor_bg = "#88E9FD",
+	cursor_fg = "#000000",
+	-- cursor_bg = "#560CF5",
+	-- cursor_fg = "white",
+}
 
 config.keys = {
 	-- Make Option-Left equivalent to Alt-b which many line editors interpret as backward-word
@@ -50,8 +62,7 @@ config.keys = {
 
 config.inactive_pane_hsb = {
 	saturation = 0.9,
-	brightness = 0.,
+	brightness = 0.8,
 }
-
 -- and finally, return the configuration to wezterm
 return config
