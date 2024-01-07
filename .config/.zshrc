@@ -4,13 +4,13 @@ source ~/antigen.zsh
 antigen use oh-my-zsh
 
 # Load bundles from the default repo
-antigen bundle git
 antigen bundle asdf
-antigen bundle npm
 antigen bundle aws
+antigen bundle command-not-found
+antigen bundle git
+antigen bundle npm
 antigen bundle node
 antigen bundle pip
-antigen bundle command-not-found
 antigen bundle docker
 antigen bundle autojump
 
@@ -48,7 +48,7 @@ alias por="poetry run"
 alias prn="poetry run nvim"
 alias dcup="docker compose up -d"
 alias dcdown="docker compose down"
-alias ls="exa --icons"
+alias ls="lsd"
 alias flav="bash ~/.tmux/flavour.sh && tmux source-file ~/.tmux.conf"
 
 alias tmux_colors='for x in {0..255}; do  printf "\x1b[38;5;${x}mcolor%-5i\x1b[0m" $x ; if ! (( ($x + 1 ) % 8 )); then echo ; fi ; done'

@@ -12,34 +12,29 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-  { "folke/lazy.nvim", version = false },
-  { "LazyVim/LazyVim", version = false },
+  { "folke/lazy.nvim" },
+  { "LazyVim/LazyVim" },
   { import = "leo.plugins" },
-  -- { import = "leo.plugins.lsp" },
 }, {
-  defaults = {
-    lazy = false,
-    version = false,
-  },
   install = {
-    colorscheme = { "tokyonight", "catppuccin" },
+    colorscheme = { "catppuccin" },
   },
   checker = {
     enabled = true,
     notify = false,
   },
   change_detection = {
+    enabled = true,
     notify = false,
   },
-
+  ui = {
+    border = "rounded",
+  },
   performance = {
     rtp = {
       -- disable some rtp plugins
       disabled_plugins = {
         "gzip",
-        -- "matchit",
-        -- "matchparen",
-        -- "netrwPlugin",
         "tarPlugin",
         "tohtml",
         "tutor",

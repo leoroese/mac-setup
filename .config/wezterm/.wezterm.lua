@@ -6,7 +6,7 @@ local config = {}
 
 function scheme_for_appearance(appearance)
 	if appearance:find("Dark") then
-		return "Dracula"
+		return "Catppuccin Macchiato"
 	else
 		return "Catppuccin Latte"
 	end
@@ -18,37 +18,29 @@ if wezterm.config_builder then
 	config = wezterm.config_builder()
 end
 
+config.color_scheme = "Catppuccin Macchiato"
+
 wezterm.on("window-config-reloaded", function(window, pane)
 	local overrides = window:get_config_overrides() or {}
 	local appearance = window:get_appearance()
-	local scheme = scheme_for_appearance(appearance)
-	if overrides.color_scheme ~= scheme then
-		overrides.color_scheme = scheme
-		overrides.window_background_opacity = appearance == "Dark" and 0.85 or 1
-		overrides.text_background_opacity = appearance == "Dark" and 0.7 or 0.45
-		overrides.colors = appearance == "Dark" and {
-			cursor_bg = "#88E9FD",
-			cursor_fg = "#000000",
-		} or {
-			cursor_bg = "#560CF5",
-			cursor_fg = "white",
-		}
-		window:set_config_overrides(overrides)
-	end
+	local is_dark = appearance:find("Dark")
+	-- overrides.window_background_opacity = is_dark and 0.85 or 1
+	-- overrides.text_background_opacity = is_dark and 0.7 or 0.45
+	overrides.color_scheme = is_dark and "Catppuccin Macchiato" or "Catppuccin Latte"
+	overrides.colors = is_dark and {
+		cursor_bg = "#88E9FD",
+		cursor_fg = "#000000",
+	} or {
+		cursor_bg = "#560CF5",
+		cursor_fg = "white",
+	}
+	window:set_config_overrides(overrides)
 end)
 
 -- font
--- config.font = wezterm.font("FiraCode Nerd Font", { weight = "Regular", stretch = "Normal", italic = false })
 config.font = wezterm.font("JetBrains Mono")
 config.font_size = 12.0
 config.enable_tab_bar = false
-
-config.colors = {
-	cursor_bg = "#88E9FD",
-	cursor_fg = "#000000",
-	-- cursor_bg = "#560CF5",
-	-- cursor_fg = "white",
-}
 
 config.keys = {
 	-- Make Option-Left equivalent to Alt-b which many line editors interpret as backward-word

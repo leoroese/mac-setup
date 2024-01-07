@@ -1,13 +1,33 @@
 return {
   "RRethy/vim-illuminate",
-  event = { "BufReadPost", "BufNewFile", "BufWritePre" },
+  event = { "BufReadPost", "BufNewFile" },
   opts = {
     delay = 200,
-    large_file_cutoff = 2000,
-    large_file_overrides = {
-      providers = { "lsp" },
+    filetypes_denylist = {
+      "mason",
+      "harpoon",
+      "neo-tree",
+      "DressingInput",
+      "NeogitCommitMessage",
+      "qf",
+      "dirvish",
+      "fugitive",
+      "alpha",
+      "NvimTree",
+      "lazy",
+      "Trouble",
+      "netrw",
+      "lir",
+      "DiffviewFiles",
+      "Outline",
+      "Jaq",
+      "spectre_panel",
+      "toggleterm",
+      "DressingSelect",
+      "TelescopePrompt",
     },
   },
+  lazy = false,
   config = function(_, opts)
     require("illuminate").configure(opts)
 
@@ -20,7 +40,6 @@ return {
     map("]]", "next")
     map("[[", "prev")
 
-    -- also set it after loading ftplugins, since a lot overwrite [[ and ]]
     vim.api.nvim_create_autocmd("FileType", {
       callback = function()
         local buffer = vim.api.nvim_get_current_buf()

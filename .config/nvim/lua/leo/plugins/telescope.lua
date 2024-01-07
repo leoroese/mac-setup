@@ -5,7 +5,9 @@ return {
     cmd = "Telescope",
     version = false, -- telescope did only one release, so use HEAD for now
     dependencies = {
+      "nvim-lua/plenary.nvim",
       {
+        "nvim-tree/nvim-web-devicons",
         "nvim-telescope/telescope-fzf-native.nvim",
         build = "make",
         enabled = vim.fn.executable("make") == 1,
@@ -15,6 +17,10 @@ return {
           end)
         end,
       },
+      "nvim-telescope/telescope-ui-select.nvim",
+      "telescope-dap.nvim",
+      "kkharji/sqlite.lua",
+      "nvim-telescope/telescope-frecency.nvim",
     },
     keys = {
       {

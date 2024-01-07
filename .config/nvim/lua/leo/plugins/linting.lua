@@ -13,10 +13,6 @@ return {
       typescriptreact = { "eslint" },
       svelte = { "eslint" },
       vue = { "eslint" },
-      -- Use the "*" filetype to run linters on all filetypes.
-      -- ['*'] = { 'global linter' },
-      -- Use the "_" filetype to run linters on filetypes that don't have other linters configured.
-      -- ['_'] = { 'fallback linter' },
     },
     -- LazyVim extension to easily override linter options
     -- or add custom linters.
