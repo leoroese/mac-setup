@@ -18,8 +18,6 @@ return {
         end,
       },
       "nvim-telescope/telescope-ui-select.nvim",
-      "telescope-dap.nvim",
-      "kkharji/sqlite.lua",
       "nvim-telescope/telescope-frecency.nvim",
     },
     keys = {
