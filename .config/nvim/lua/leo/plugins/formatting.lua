@@ -52,6 +52,7 @@ return {
         lua = { "stylua" },
         fish = { "fish_indent" },
         sh = { "shfmt" },
+        ---@diagnostic disable-next-line: assign-type-mismatch
         python = { "isort", "black" },
         javascript = { "prettier" },
         typescript = { "prettier" },
