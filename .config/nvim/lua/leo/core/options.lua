@@ -28,7 +28,7 @@ local options = {
   confirm = true, -- confirm to save changes before exiting modified buffer
   cursorline = false, -- highlight the current line
   expandtab = true, -- convert tabs to spaces
-  fileencoding = "utf-8", -- the encoding written to a file
+  -- fileencoding = "utf-8", -- the encoding written to a file
   fillchars = { eob = " " }, -- change the character at the end of buffer
   guifont = "monospace:h17", -- the font used in graphical neovim applications
   guicursor = "n-v-c-i:block", -- cursor style in different modes, see :help 'guicursor'

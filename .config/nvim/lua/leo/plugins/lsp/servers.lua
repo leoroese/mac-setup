@@ -1,4 +1,7 @@
 return {
+  bashls = {
+    filetypes = { "sh", "zsh" },
+  },
   clangd = {
     keys = {
       { "<leader>cR", "<cmd>ClangdSwitchSourceHeader<cr>", desc = "Switch Source/Header (C/C++)" },
@@ -47,16 +50,9 @@ return {
   },
   html = {},
   jsonls = {
-    -- lazy-load schemastore when needed
-    on_new_config = function(new_config)
-      new_config.settings.json.schemas = new_config.settings.json.schemas or {}
-      vim.list_extend(new_config.settings.json.schemas, require("schemastore").json.schemas())
-    end,
     settings = {
       json = {
-        format = {
-          enable = true,
-        },
+        schema = require("schemastore").json.schemas(),
         validate = { enable = true },
       },
     },
@@ -79,26 +75,7 @@ return {
   },
   marksman = {},
   pyright = {},
-  ruff_lsp = {
-    settings = {
-      organizeImports = false,
-    },
-    keys = {
-      {
-        "<leader>co",
-        function()
-          vim.lsp.buf.code_action({
-            apply = true,
-            context = {
-              only = { "source.organizeImports" },
-              diagnostics = {},
-            },
-          })
-        end,
-        desc = "Organize Imports",
-      },
-    },
-  },
+  ruff_lsp = {},
   tailwindcss = {
     -- exclude a filetype from the default_config
     filetypes_exclude = { "markdown" },
@@ -110,36 +87,7 @@ return {
   tsserver = {},
   volar = {},
   yamlls = {
-    -- Have to add this for yamlls to understand that we support line folding
-    capabilities = {
-      textDocument = {
-        foldingRange = {
-          dynamicRegistration = false,
-          lineFoldingOnly = true,
-        },
-      },
-    },
-    -- lazy-load schemastore when needed
-    on_new_config = function(new_config)
-      new_config.settings.yaml.schemas =
-        vim.tbl_deep_extend("force", new_config.settings.yaml.schemas or {}, require("schemastore").yaml.schemas())
-    end,
-    settings = {
-      redhat = { telemetry = { enabled = false } },
-      yaml = {
-        keyOrdering = false,
-        format = {
-          enable = true,
-        },
-        validate = true,
-        schemaStore = {
-          -- Must disable built-in schemaStore support to use
-          -- schemas from SchemaStore.nvim plugin
-          enable = false,
-          -- Avoid TypeError: Cannot read properties of undefined (reading 'length')
-          url = "",
-        },
-      },
-    },
+    cmd = { "yaml-language-server", "--stdio" },
+    filetypes = { "yaml" },
   },
 }
