@@ -18,6 +18,7 @@ end
 local function get_telescope_keymaps()
   return {
     -- Buffers
+    map_telescope("<leader><space>", "<cmd>Telescope buffers sort_mru=true sort_lastused=true<cr>", "Switch Buffer"),
     map_telescope("<leader>,", "<cmd>Telescope buffers sort_mru=true sort_lastused=true<cr>", "Switch Buffer"),
 
     -- Grep and Find
