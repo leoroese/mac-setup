@@ -79,9 +79,6 @@ map("n", "N", "'nN'[v:searchforward].'zv'", { expr = true, desc = "Prev search r
 map("x", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search result" })
 map("o", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search result" })
 
--- search current buffer
-map("n", "<C-s>", ":Telescope current_buffer_fuzzy_find<CR>", opts)
-
 -- search modified files
 map("n", "<Leader>m", ":Telescope git_status<CR>", opts)
 
@@ -89,7 +86,7 @@ map("n", "<Leader>m", ":Telescope git_status<CR>", opts)
 map("n", "X", ":keeppatterns substitute/\\s*\\%#\\s*/\\r/e <bar> normal! ==^<cr>", { silent = true })
 
 -- Select all
-map("n", "<C-a>", "ggVG", opts)
+map("n", "<leader>yy", "ggVG", opts)
 
 -- Location Quickfix List
 map("n", "<leader>xl", "<cmd>lopen<cr>", { desc = "Location List" })
