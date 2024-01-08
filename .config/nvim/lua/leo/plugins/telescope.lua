@@ -27,11 +27,7 @@ local function get_telescope_keymaps()
     map_telescope("<leader>sG", Util.telescope("live_grep", { cwd = false }), "Grep (cwd)"),
 
     -- Files
-    map_telescope(
-      "<leader>sf",
-      "<cmd>Telescope find_files find_command=rg,--ignore,--hidden,--files<cr>",
-      "Search All Files (entry point)"
-    ),
+    map_telescope("<leader>sf", Util.telescope("files"), "Find files (root)"),
     map_telescope("<leader>sF", Util.telescope("files", { cwd = false }), "Find Files (cwd)"),
 
     -- Search specific files
